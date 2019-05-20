@@ -1,10 +1,16 @@
 services:
   App\Application\EventListener\SomeEventListener:
   App\Application\Http\Handler\HomePage:
-
+  App\Domain\TodosRepository:
+    factory: [Antidot\Persistence\Doctrine\Container\EntityRepositoryFactory, 'App\Domain\Model\Todo']
 parameters:
   debug: false
   config_cache_enabled: true
+  doctrine:
+    connection:
+      orm_default:
+        params:
+          path: var/database.sqlite
   app-events:
     event-listeners:
       App\Application\Event\SomeEvent:
