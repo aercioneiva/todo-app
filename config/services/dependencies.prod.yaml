@@ -1,6 +1,7 @@
 services:
   App\Application\EventListener\SomeEventListener:
   App\Application\Http\Handler\HomePage:
+  App\Application\Http\Handler\AddTodo:
   App\Domain\TodosRepository:
     factory: [Antidot\Persistence\Doctrine\Container\EntityRepositoryFactory, 'App\Domain\Model\Todo']
   Antidot\Render\TemplateRenderer:

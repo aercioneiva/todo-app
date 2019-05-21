@@ -7,11 +7,13 @@ use Antidot\Application\Http\Middleware\ErrorMiddleware;
 use Antidot\Application\Http\Middleware\RouteDispatcherMiddleware;
 use Antidot\Application\Http\Middleware\RouteNotFoundMiddleware;
 use Antidot\Logger\Application\Http\Middleware\ExceptionLoggerMiddleware;
+use Antidot\Session\Application\Http\Middleware\SessionMiddleware;
 use Antidot\Logger\Application\Http\Middleware\RequestLoggerMiddleware;
 
 return static function (Application $app) : void {
     $app->pipe(ErrorMiddleware::class);
     $app->pipe(ExceptionLoggerMiddleware::class);
+    $app->pipe(SessionMiddleware::class);
     $app->pipe(RequestLoggerMiddleware::class);
     $app->pipe(RouteDispatcherMiddleware::class);
     $app->pipe(RouteNotFoundMiddleware::class);

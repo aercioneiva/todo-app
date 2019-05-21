@@ -8,6 +8,7 @@ use App\Domain\Model\Todo;
 use App\Domain\TodosRepository;
 use Doctrine\ORM\EntityRepository;
 use InvalidArgumentException;
+
 class DoctrineTodosRepository extends EntityRepository implements TodosRepository
 {
     public function getAll(): array
@@ -22,20 +23,8 @@ class DoctrineTodosRepository extends EntityRepository implements TodosRepositor
     }
     public function update(int $id, string $description): void
     {
-        $todo = $this->findOneBy(['id' => $id]);
-        if (null === $todo) {
-            throw new InvalidArgumentException('Invalid Todo id given.');
-        }
-        $todo->update($description);
-        $this->_em->flush($todo);
     }
     public function remove(int $id): void
     {
-        $todo = $this->findOneBy(['id' => $id]);
-        if (null === $todo) {
-            throw new InvalidArgumentException('Invalid Todo id given.');
-        }
-        $this->_em->remove($todo);
-        $this->_em->flush();
     }
 }
