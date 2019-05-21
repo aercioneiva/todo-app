@@ -1,0 +1,12 @@
+extends ../base.pug
+
+block content
+    h1 Todos app List
+
+    ul(class="collection")
+        each todo in todos
+            li(class="collection-item")= todo.description()
+                a(href="#")
+                    i(class="material-icons right red-text") delete
+                a(href="#")
+                    i(class="material-icons right yellow-text") edit

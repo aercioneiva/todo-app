@@ -3,6 +3,8 @@ services:
   App\Application\Http\Handler\HomePage:
   App\Domain\TodosRepository:
     factory: [Antidot\Persistence\Doctrine\Container\EntityRepositoryFactory, 'App\Domain\Model\Todo']
+  Antidot\Render\TemplateRenderer:
+    factory: [Antidot\Render\Phug\Container\PugRendererFactory]
 parameters:
   debug: false
   config_cache_enabled: true
