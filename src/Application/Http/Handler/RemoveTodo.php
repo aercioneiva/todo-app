@@ -9,12 +9,12 @@ use InvalidArgumentException;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\RequestHandlerInterface;
-use Webmozart\Assert\Assert;
 use Zend\Diactoros\Response\RedirectResponse;
 
-class AddTodo implements RequestHandlerInterface
+use function sprintf;
+
+class RemoveTodo implements RequestHandlerInterface
 {
-    /** @var TodosRepository */
     private $todosRepository;
 
     public function __construct(TodosRepository $todosRepository)
@@ -24,24 +24,16 @@ class AddTodo implements RequestHandlerInterface
 
     public function handle(ServerRequestInterface $request): ResponseInterface
     {
-        $data = $request->getParsedBody() ?? [];
-      
+        $id = (int)$request->getAttribute('id');
+        $session = $request->getAttribute('session');
+
         try {
-            $this->assertValidData($data);
-            $this->todosRepository->add($data['description']);
+            $this->todosRepository->remove($id);
+            $session->setFlash('success', 'Todo successfully removed.');
         } catch (InvalidArgumentException $e) {
-            $session = $request->getAttribute('session');
-            $session->setFlash('error', $e->getMessage());
+            $session->setFlash('error', sprintf('%s', $e->getMessage()));
         }
 
         return new RedirectResponse('/');
-    }
-
-    private function assertValidData(array $data): void
-    {
-        Assert::keyExists($data, 'description');
-        Assert::string($data['description']);
-        Assert::maxLength($data['description'], 255);
-        Assert::minLength($data['description'], 5);
     }
 }

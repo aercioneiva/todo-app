@@ -2,11 +2,18 @@ extends ../base.pug
 
 block content
     h1 Todos app List
-    
+
+    if success
+        div(class="row")
+            div(class="card row green lighten-3 white-text" style="padding: 20px 15px")
+                dic(class="card-content")
+                    span= success
+
     if error
-    div(class="card row red lighten-3 white-text" style="padding: 20px 15px")
-        dic(class="card-content")
-            span= error
+        div(class="row")
+            div(class="card row red lighten-3 white-text" style="padding: 20px 15px")
+                dic(class="card-content")
+                    span= error
 
     div(class="row")
         div(class="col-12")
@@ -21,8 +28,4 @@ block content
 
     ul(class="collection")
         each todo in todos
-            li(class="collection-item")= todo.description()
-                a(href="#")
-                    i(class="material-icons right red-text") delete
-                a(href="#")
-                    i(class="material-icons right yellow-text") edit
+            include ./list-item.pug

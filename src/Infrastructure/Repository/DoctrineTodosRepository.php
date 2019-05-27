@@ -26,5 +26,12 @@ class DoctrineTodosRepository extends EntityRepository implements TodosRepositor
     }
     public function remove(int $id): void
     {
+        $todo = $this->findOneBy(['id' => $id]);
+        if (null === $todo) {
+            throw new InvalidArgumentException('Invalid Todo id given.');
+        }
+
+        $this->_em->remove($todo);
+        $this->_em->flush();
     }
 }
