@@ -23,4 +23,9 @@ class Todo
     {
         return $this->description;
     }
+
+    public function update(string $description): void
+    {
+        $this->description = $description;
+    }
 }

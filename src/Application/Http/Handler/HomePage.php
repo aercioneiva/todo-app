@@ -25,11 +25,16 @@ class HomePage implements RequestHandlerInterface
     }
 
     public function handle(ServerRequestInterface $request): ResponseInterface
-    {
+    {   
+        $session = $request->getAttribute('session');
         $todos = $this->todosRepository->getAll();
 
         return new HtmlResponse(
-            $this->templateRenderer->render('todos/index', ['todos' => $todos])
+            $this->templateRenderer->render('todos/index', [
+                'todos' => $todos,
+                'error' => $session->getFlash('error'),
+                'success' => $session->getFlash('success')
+                ])
         );
     }
 }

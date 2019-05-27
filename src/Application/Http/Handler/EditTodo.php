@@ -9,12 +9,10 @@ use InvalidArgumentException;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\RequestHandlerInterface;
-use Webmozart\Assert\Assert;
 use Zend\Diactoros\Response\RedirectResponse;
 
-class AddTodo implements RequestHandlerInterface
+class EditTodo implements RequestHandlerInterface
 {
-    /** @var TodosRepository */
     private $todosRepository;
 
     public function __construct(TodosRepository $todosRepository)
@@ -24,12 +22,13 @@ class AddTodo implements RequestHandlerInterface
 
     public function handle(ServerRequestInterface $request): ResponseInterface
     {
+        $id = (int)$request->getAttribute('id');
         $description = $request->getAttribute('description');
         $session = $request->getAttribute('session');
-        
-       try {
-            $this->todosRepository->add($description);
-            $session->setFlash('success', 'Todo successfully added to list.');
+
+        try {
+            $this->todosRepository->update($id, $description);
+            $session->setFlash('success', 'Todo successfully updated.');
         } catch (InvalidArgumentException $e) {
             $session->setFlash('error', $e->getMessage());
         }
